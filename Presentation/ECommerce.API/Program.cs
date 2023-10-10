@@ -1,15 +1,18 @@
+
+using ECommerce.Application.Abstractions;
+using ECommerce.Persistence.Concretes;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
+// for Extension static method 
+//builder.Services.AddPersistenceServices();
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
