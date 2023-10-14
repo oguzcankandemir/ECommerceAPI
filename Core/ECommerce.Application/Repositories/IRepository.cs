@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ECommerce.Domain.Entities.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace ECommerce.Application.Repositories
 {
     //Constrait done .
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : BaseEntity
     {
         DbSet<T>Table { get; }
     }

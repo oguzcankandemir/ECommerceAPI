@@ -1,4 +1,6 @@
 ﻿using ECommerce.Application.Repositories;
+using ECommerce.Domain.Entities.Common;
+using ECommerce.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,29 +11,24 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Persistence.Repositories
 {
-    public class ReadRepository<T> : IReadRepository<T> where T : class
+    public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
     {
-       
-        public DbSet<T> Table => throw new NotImplementedException();
+        private readonly ECommerceAPIDbContext _context;
+
+        public ReadRepository(ECommerceAPIDbContext context)
+        {
+            _context = context;
+        }
+
+        public DbSet<T> Table => _context.Set<T>();
 
         public IQueryable<T> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
+        => Table;
         public Task<T> GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> GetSingleAsync(Expression<Func<T, bool>> method)
-        {
-            throw new NotImplementedException();
-        }
-
+          => Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method)
+        => await Table.FirstOrDefaultAsync(method);
         public IQueryable<T> GetWhere(Expression<Func<T, bool>> method)
-        {
-            throw new NotImplementedException();
-        }
+        => Table.Where(method);
     }
 }
