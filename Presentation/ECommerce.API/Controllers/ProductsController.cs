@@ -29,11 +29,16 @@ namespace ECommerce.API.Controllers
                 new() {Id = Guid.NewGuid(),Name="Product 3",Price = 300,CreatedData = DateTime.UtcNow,Stock=30},
             });
             var count = await _productWriteRepository.SaveAsync();
+
+            //*Tracking Test Done
+            //Product p = await _productReadRepository.GetByIdAsync("", true);
+            //p.Name = "Person";
+            //await _productWriteRepository.SaveAsync();
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            Product product = await _productReadRepository.GetById(id);
+            Product product = await _productReadRepository.GetByIdAsync(id);
             return Ok(product);
         }
     }
