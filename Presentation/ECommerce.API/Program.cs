@@ -4,6 +4,7 @@ using ECommerce.Persistence;
 using ECommerce.Persistence.Concretes;
 using ECommerce.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 // for Extension static method 

@@ -3,6 +3,7 @@ using ECommerce.Application.Repositories.Products;
 using ECommerce.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace ECommerce.API.Controllers
 {
@@ -22,14 +23,8 @@ namespace ECommerce.API.Controllers
         [HttpGet]
         public async Task GetProducts()
         {
-            await _productWriteRepository.AddRangeAsync(new()
-            {
-                new() {Id = Guid.NewGuid(),Name="Product 1",Price = 100,CreatedData = DateTime.UtcNow,Stock=10},
-                new() {Id = Guid.NewGuid(),Name="Product 2",Price = 200,CreatedData = DateTime.UtcNow,Stock=20},
-                new() {Id = Guid.NewGuid(),Name="Product 3",Price = 300,CreatedData = DateTime.UtcNow,Stock=30},
-            });
-            var count = await _productWriteRepository.SaveAsync();
-
+            await _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10, CreatedData = DateTime.UtcNow });
+            await _productWriteRepository.SaveAsync();
             //*Tracking Test Done
             //Product p = await _productReadRepository.GetByIdAsync("", true);
             //p.Name = "Person";

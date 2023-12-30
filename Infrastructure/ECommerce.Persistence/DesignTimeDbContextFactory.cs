@@ -14,8 +14,12 @@ namespace ECommerce.Persistence
     {
         public ECommerceAPIDbContext CreateDbContext(string[] args)
         {
+            //ConfigurationManager configurationManager = new();
+            //configurationManager.SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../../Presentation/ECommerce.API"));
+            //configurationManager.AddJsonFile("appsettings.json");
+
             DbContextOptionsBuilder<ECommerceAPIDbContext> dbContextOptionsBuilder = new();
-            dbContextOptionsBuilder.UseNpgsql(Configuration.ConnectionString);
+            dbContextOptionsBuilder.UseSqlServer(Configuration.ConnectionString);
             return new(dbContextOptionsBuilder.Options);
         }
     }
