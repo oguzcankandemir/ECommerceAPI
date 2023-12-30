@@ -23,6 +23,11 @@ namespace ECommerce.Persistence.Repositories
 
         public DbSet<T> Table => _context.Set<T>();
 
+        public Task<bool> AddAsync(T model)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<T> GetAll(bool tracking = true)
         {
             var query = Table.AsQueryable();
@@ -53,5 +58,9 @@ namespace ECommerce.Persistence.Repositories
                 return query;
         }
 
+        public Task<int> SaveAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
