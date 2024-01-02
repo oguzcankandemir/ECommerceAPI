@@ -2,10 +2,12 @@
 using ECommerce.Application.Repositories.Customers;
 using ECommerce.Application.Repositories.Orders;
 using ECommerce.Application.Repositories.Products;
+using ECommerce.Application.ViewsModels.Products;
 using ECommerce.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
+using System.Net;
 
 namespace ECommerce.API.Controllers
 {
@@ -15,33 +17,72 @@ namespace ECommerce.API.Controllers
     {
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
-        readonly private IOrderReadRepository _orderReadRepository;
-        readonly private ICustomerWriteRepository _customerWriteRepository;
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IOrderReadRepository orderReadRepository, ICustomerWriteRepository customerWriteRepository)
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
-            _orderReadRepository = orderReadRepository;
-            _customerWriteRepository = customerWriteRepository;
         }
 
         [HttpGet]
-        public async Task GetProducts()
-        {
-            await _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10, CreatedData = DateTime.UtcNow });
-            await _productWriteRepository.SaveAsync();
-            //*Tracking Test Done
-            //Product p = await _productReadRepository.GetByIdAsync("", true);
-            //p.Name = "Person";
-            //await _productWriteRepository.SaveAsync();
-        }
-        [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            Product product = await _productReadRepository.GetByIdAsync(id);
-            return Ok(product);
+            return Ok(await _productReadRepository.GetByIdAsync(id,false));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(_productReadRepository.GetAll(false));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(VM_Create_Product model)
+        {
+            await _productWriteRepository.AddAsync(new()
+            {
+                Name = model.Name,
+                Price = model.Price,
+                Stock = model.Stock
+            });
+            await _productWriteRepository.SaveAsync();
+            return Ok((int)HttpStatusCode.Created);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(VM_Update_Product model)
+        {
+            Product product = await _productReadRepository.GetByIdAsync(model.Id);
+            product.Stock = model.Stock;
+            product.Name = model.Name;
+            product.Price = model.Price;
+            await _productWriteRepository.SaveAsync();
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _productWriteRepository.RemoveAsync(id);
+            await _productWriteRepository.SaveAsync();
+            return Ok();
+        }
+        //[HttpGet]
+        //public async Task GetProducts()
+        //{
+        //    await _productWriteRepository.AddAsync(new() { Name = "C Product", Price = 1.500F, Stock = 10, CreatedData = DateTime.UtcNow });
+        //    await _productWriteRepository.SaveAsync();
+        //    //*Tracking Test Done
+        //    //Product p = await _productReadRepository.GetByIdAsync("", true);
+        //    //p.Name = "Person";
+        //    //await _productWriteRepository.SaveAsync();
+        //}
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Get(string id)
+        //{
+        //    Product product = await _productReadRepository.GetByIdAsync(id);
+        //    return Ok(product);
+        //}
 
         //SaveChangeAsync Interceptor
         //[HttpGet]
