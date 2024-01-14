@@ -24,10 +24,10 @@ namespace ECommerce.API.Controllers
             _productReadRepository = productReadRepository;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            return Ok(await _productReadRepository.GetByIdAsync(id,false));
+            return Ok(await _productReadRepository.GetByIdAsync(id, false));
         }
 
         [HttpGet]
@@ -46,7 +46,7 @@ namespace ECommerce.API.Controllers
                 Stock = model.Stock
             });
             await _productWriteRepository.SaveAsync();
-            return Ok((int)HttpStatusCode.Created);
+            return StatusCode((int)HttpStatusCode.Created);
         }
 
         [HttpPut]
