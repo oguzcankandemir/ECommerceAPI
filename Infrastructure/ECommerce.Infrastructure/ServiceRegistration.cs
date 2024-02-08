@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerce.Infrastructure.Enums;
+using ECommerce.Infrastructure.Services.Azure;
 
 namespace ECommerce.Infrastructure
 {
@@ -32,7 +33,7 @@ namespace ECommerce.Infrastructure
                     serviceCollection.AddScoped<IStorage, LocalStorage>();
                     break;
                 case StorageType.Azure:
-
+                    serviceCollection.AddScoped<IStorage, AzureStorage>();
                     break;
                 case StorageType.AWS:
 

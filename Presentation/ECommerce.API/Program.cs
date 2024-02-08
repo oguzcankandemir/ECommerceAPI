@@ -4,6 +4,7 @@ using ECommerce.Application.Validators.Products;
 using ECommerce.Application.ViewsModels.Products;
 using ECommerce.Infrastructure;
 using ECommerce.Infrastructure.Filters;
+using ECommerce.Infrastructure.Services.Azure;
 using ECommerce.Infrastructure.Services.Storage.Local;
 using ECommerce.Persistence;
 using ECommerce.Persistence.Concretes;
@@ -18,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 builder.Services.AddStorage<LocalStorage>();
+builder.Services.AddStorage<AzureStorage>();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
 ));
