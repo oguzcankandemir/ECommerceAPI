@@ -10,5 +10,6 @@ namespace ECommerce.Application.Abstractions
     public interface IProductService
     {
         List<Product> GetProducts();
+        Task<byte[]> QrCodeToProductAsync(string productId);
     }
 }

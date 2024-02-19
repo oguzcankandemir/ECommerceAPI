@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ECommerce.Infrastructure.Enums;
-using ECommerce.Infrastructure.Services.Azure;
+
 
 namespace ECommerce.Infrastructure
 {
@@ -20,6 +20,7 @@ namespace ECommerce.Infrastructure
         {
             serviceCollection.AddScoped<IFileService, FileService>();
             serviceCollection.AddScoped<IStorageService, StorageService>();//local
+            serviceCollection.AddScoped<IQRCodeService,QRCodeService>();
         }
         public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : class, IStorage
         {
@@ -32,9 +33,9 @@ namespace ECommerce.Infrastructure
                 case StorageType.Local:
                     serviceCollection.AddScoped<IStorage, LocalStorage>();
                     break;
-                case StorageType.Azure:
-                    serviceCollection.AddScoped<IStorage, AzureStorage>();
-                    break;
+                //case StorageType.Azure:
+                //    serviceCollection.AddScoped<IStorage, AzureStorage>();
+                //    break;
                 case StorageType.AWS:
 
                     break;
